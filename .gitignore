@@ -1,0 +1,30 @@
+# Python
+*.pyc
+__pycache__/
+
+# Environment
+.env
+venv/
+env/
+.venv/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Streamlit
+.streamlit/
+
+# Cache
+.cache/
+__pycache__/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# LLM RAG specific
+data/
