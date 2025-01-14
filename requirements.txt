@@ -12,3 +12,4 @@ sentence-transformers
 streamlit
 trafilatura
 duckduckgo-search
+pysqlite3-binary
