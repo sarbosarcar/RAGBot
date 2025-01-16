@@ -1,4 +1,4 @@
-# RAGBot
+# :memo: RAGBot
 
 ![screenshot.gif](./assets/screenshot.gif)
 RAGBot is a Retrieval-Augmented Generation (RAG) chatbot that leverages advanced AI techniques to provide accurate and context-aware responses by integrating external knowledge sources.
