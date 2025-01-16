@@ -1,6 +1,3 @@
-chromadb==0.4.1
-keybert
-langchain-chroma
 langchain-community
 langchain-core
 langchain-huggingface
@@ -12,3 +9,4 @@ sentence-transformers
 streamlit
 trafilatura
 duckduckgo-search
+faiss-cpu
