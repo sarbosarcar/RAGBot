@@ -1,11 +1,10 @@
 import streamlit as st
 
-from preprocess import load_documents, split_text, clear_dir, create_dir, CustomDocumentLoader
+from preprocess import CustomDocumentLoader, split_text
 from data import save_embeddings, fetch_model
-from retrieval import retrieve, extract_keywords
+from retrieval import retrieve
 from scraper import fetch_sites
 
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 
 PROMPT_TEMPLATE = """
@@ -17,7 +16,7 @@ PROMPT_TEMPLATE = """
 
     Answer the question based on the above context and explain the answer clearly without alluding to the context in the response: {question}
     """
-db = fetch_model()
+
 
 def main():
     st.set_page_config(page_title="LLM Summarizer", page_icon=":memo:")
@@ -49,8 +48,11 @@ def main():
         with st.chat_message("assistant"):
             with st.spinner("Processing query..."):
                 documents = loader.lazy_load()
-                chunks = split_text(documents, 200, 100)
-                db.add_documents(chunks)
+                chunks = split_text(documents, 1024, 256)
+                save_embeddings(chunks)
+                # db.add_documents(chunks)
+                db = fetch_model()
+
 
                 results = db.similarity_search_with_relevance_scores(prompt, k=3)
                 if len(results) == 0 or results[0][1] < 0.5:
@@ -62,20 +64,15 @@ def main():
 
                 # Collect response chunks
                 response_chunks = retrieve(query, stream=True, model="meta-llama/Meta-Llama-3-8B-Instruct")
-                response_chunks2 = response_chunks
-                full_response = ""
-                st.write_stream(response_chunks)
-                for chunk in response_chunks2:
-                    chunk_text = chunk.choices[0].delta.content
-                    full_response += chunk_text  # Append chunk text to the full response
-
-                st.write("References:")
-                for doc, _score in results:
-                    st.write(f" - Source: {doc.metadata.get('source', None)}")
-                    st.write(f"Link: {doc.metadata.get('link', None)}\n")
+            msg = st.write_stream(response_chunks)
+            print(msg)
+            st.write("References:")
+            for doc, _score in results:
+                st.write(f" - Source: {doc.metadata.get('source', None)}")
+                st.write(f"Link: {doc.metadata.get('link', None)}\n")
 
         # Add full assistant response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
+        st.session_state.messages.append({"role": "assistant", "content": msg})
 
 if __name__ == "__main__":
     main()

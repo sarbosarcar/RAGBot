@@ -1,43 +1,21 @@
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import faiss
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
-import os
-import shutil
+import streamlit as st
 
-from langchain_chroma import Chroma
-from chromadb.utils import embedding_functions
-from langchain_huggingface import HuggingFaceEmbeddings
-
-from embeddings import embedding_function
-
-from preprocess import clear_dir
-
-CHROMA_PATH = "chroma"
-
+# Save chunks to FAISS in memory
 def save_embeddings(chunks):
-    # clear_dir(CHROMA_PATH)
-
-    hf = embedding_function()
-
-    # db = Chroma.from_documents(
-    #     chunks, hf, persist_directory=CHROMA_PATH
-    # )
-
-    db = Chroma.from_documents(
-        chunks, hf
-    )
-
-    print(f"Saved {len(chunks)} chunks to {CHROMA_PATH}")
-
+    if not chunks:
+        raise ValueError("Chunks not provided!")
+    hf = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    db = FAISS.from_documents(chunks, hf)
+    st.session_state.db = db
+    print(f"Saved {len(chunks)} chunks to FAISS in memory")
     return db
 
+# Load FAISS model from memory
 def fetch_model():
-    ef = embedding_function()
-    # db = Chroma(persist_directory=CHROMA_PATH, embedding_function=ef)
-    db = Chroma(embedding_function=ef)
-    return db
-
-def del_db():
-    if os.path.exists(CHROMA_PATH):
-        shutil.rmtree(CHROMA_PATH)
+    if "db" not in st.session_state or st.session_state.db is None:
+        raise ValueError("FAISS index is not initialized. Please save embeddings first.")
+    return st.session_state.db

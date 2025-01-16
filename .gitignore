@@ -9,9 +9,6 @@ env/
 .venv/
 ENV/
 
-# Jupyter Notebook
-.ipynb_checkpoints/
-
 # Streamlit
 .streamlit/
 

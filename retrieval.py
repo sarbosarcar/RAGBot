@@ -25,10 +25,4 @@ def retrieve(prompt, stream=True, model="HuggingFaceH4/zephyr-7b-beta"):
         max_tokens=1024,
         stream=stream
     )
-    # for chunk in result:
-    #     print(chunk.choices[0].delta.content, end="")
     return result
-
-def extract_keywords(text, limit : int = 4):
-    keywords = model.extract_keywords(text, keyphrase_ngram_range=(1, limit), stop_words=None)
-    return keywords

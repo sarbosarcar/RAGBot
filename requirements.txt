@@ -1,4 +1,4 @@
-chromadb
+chromadb==0.4.1
 keybert
 langchain-chroma
 langchain-community
@@ -12,4 +12,3 @@ sentence-transformers
 streamlit
 trafilatura
 duckduckgo-search
-pysqlite3-binary
