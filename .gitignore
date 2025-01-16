@@ -4,10 +4,7 @@ __pycache__/
 
 # Environment
 .env
-venv/
-env/
 .venv/
-ENV/
 
 # Streamlit
 .streamlit/
@@ -15,6 +12,7 @@ ENV/
 # Cache
 .cache/
 __pycache__/
+.devcontainer/
 
 # Logs
 *.log
