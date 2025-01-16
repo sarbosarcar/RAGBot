@@ -19,8 +19,8 @@ PROMPT_TEMPLATE = """
 
 
 def main():
-    st.set_page_config(page_title="LLM Summarizer", page_icon=":memo:")
-    st.title(":memo: LLM Summarizer")       
+    st.set_page_config(page_title="RAGBot", page_icon=":memo:")
+    st.title(":memo: RAGBot")       
 
     prompt = st.chat_input("Enter some query...")
     if "messages" not in st.session_state:
@@ -65,7 +65,6 @@ def main():
                 # Collect response chunks
                 response_chunks = retrieve(query, stream=True, model="meta-llama/Meta-Llama-3-8B-Instruct")
             msg = st.write_stream(response_chunks)
-            print(msg)
             st.write("References:")
             for doc, _score in results:
                 st.write(f" - Source: {doc.metadata.get('source', None)}")

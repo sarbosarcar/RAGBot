@@ -69,7 +69,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Acknowledgments
 
-Special thanks to the open-source community for their invaluable resources and contributions.
+Special thanks to the LangChain and Streamlit communities for their invaluable resources and contributions.
 
 ## Contributing
 
