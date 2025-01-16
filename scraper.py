@@ -19,9 +19,7 @@ def parse_results(results_str):
 
 def fetch_sites(query : str, top_k : int = 3):
     ret = search.invoke(query)
-    ret = parse_results(ret)
-
-    # print((ret))
+    #ret = parse_results(ret)
     fetched = []
     for row in ret[:top_k]:
         row["content"] = visit(row["link"])
